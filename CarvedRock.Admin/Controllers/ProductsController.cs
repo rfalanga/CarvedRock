@@ -12,7 +12,13 @@ public class ProductsController : Controller
         Products = GetSampleProducts();
     }
 
-    private List<ProductModel> GetSampleProducts()
+    public IActionResult Details(int id)
+    {
+        var product = Products.Find(p => p.Id == id);
+        return product == null ? NotFound() : View(product);
+    }
+
+    private List<ProductModel>? GetSampleProducts()
     {
         return new List<ProductModel>()
         {
@@ -28,6 +34,6 @@ public class ProductsController : Controller
     }
     public IActionResult Index()
     {
-        return View();
+        return View(Products);
     }
 }

@@ -9,7 +9,7 @@ public class ProductsController : Controller
 
     public ProductsController()
     {
-        Products = GetSampleProducts();
+        // Products = GetSampleProducts(); // don't know if this is needed
     }
 
     public IActionResult Details(int id)
@@ -18,6 +18,8 @@ public class ProductsController : Controller
         return product == null ? NotFound() : View(product);
     }
 
+    // The functionality of this code has been moved to the DbContext class and incorporated 
+    // in Program.cs
     private List<ProductModel>? GetSampleProducts()
     {
         return new List<ProductModel>()

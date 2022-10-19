@@ -4,7 +4,7 @@ public class ProductModel
 {
     public ProductModel()
     {
-        // Erik didn't add this construtor
+        // Erik didn't add this constructor
         Name = "";
         Description = "";
     }

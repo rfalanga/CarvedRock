@@ -1,15 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using CarvedRock.Admin.Models;
+using CarvedRock.Admin.Logic;
 
 namespace CarvedRock.Admin.Controllers;
 
 public class ProductsController : Controller
 {
+    private readonly IProductLogic _logic;
+
     public List<ProductModel> Products { get; set; }
 
-    public ProductsController()
+    public ProductsController(IProductLogic logic)
     {
-        // Products = GetSampleProducts(); // don't know if this is needed
+        Products = GetSampleProducts();
+        this._logic = logic;
     }
 
     public IActionResult Details(int id)
@@ -20,7 +24,7 @@ public class ProductsController : Controller
 
     // The functionality of this code has been moved to the DbContext class and incorporated 
     // in Program.cs
-    private List<ProductModel>? GetSampleProducts()
+    private List<ProductModel> GetSampleProducts()
     {
         return new List<ProductModel>()
         {

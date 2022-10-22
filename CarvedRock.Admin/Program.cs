@@ -1,4 +1,6 @@
 using CarvedRock.Admin.Data;
+using CarvedRock.Admin.Logic;
+using CarvedRock.Admin.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ProductDbContext>();
+builder.Services.AddScoped<ICarvedRockRepository, CarvedRockRepository>();
+builder.Services.AddScoped<IProductLogic, ProductLogic>();
 
 var app = builder.Build();
 

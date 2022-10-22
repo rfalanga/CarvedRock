@@ -22,6 +22,81 @@ public class ProductsController : Controller
         return product == null ? NotFound() : View(product);
     }
 
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    // POST: ProductsData/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(ProductModel product)
+    {
+        if (ModelState.IsValid)
+        {
+            await _logic.AddNewProduct(product);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(product);
+    }
+
+    // GET: ProductsData/Edit/5
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var productModel = await _logic.GetProductById(id.Value);
+        if (productModel == null)
+        {
+            return NotFound();
+        }
+
+        return View(productModel);
+    }
+
+    // POST: ProductsData/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, ProductModel product)
+    {
+        if (id != product.Id) return NotFound();
+
+        if (ModelState.IsValid)
+        {
+            await _logic.UpdateProduct(product);
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(product);
+    }
+
+    // GET: ProductsData/Delete/5
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null) return NotFound();
+
+        var productModel = await _logic.GetProductById(id.Value);
+        if (productModel == null) return NotFound();
+
+        return View(productModel);
+    }
+
+    // POST: ProductsData/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _logic.RemoveProduct(id);
+        return RedirectToAction(nameof(Index));
+    }
+
     // The functionality of this code has been moved to the DbContext class and incorporated 
     // in Program.cs
     // private List<ProductModel> GetSampleProducts()

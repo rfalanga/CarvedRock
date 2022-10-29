@@ -19,7 +19,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var product = await _logic.GetProductById(id);
-        return product == null ? NotFound() : View(product);
+        return product == null ? View("NotFound") : View(product);
     }
 
     public IActionResult Create()

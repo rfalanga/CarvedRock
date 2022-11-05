@@ -26,6 +26,10 @@ public class ProductModel
     [Range(0.01, 1000.00, ErrorMessage = "Value for {0} must be between " + "{1:C} and {2:C}")]
     public decimal Price { get; set; }
     public bool IsActive { get; set; }
+    public int CategoryId { get; set; }
+
+    [DisplayName("Category")]
+    public string? CategoryName { get; set; }
 
     public static ProductModel FromProduct(Product product)
     {
@@ -35,7 +39,9 @@ public class ProductModel
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
-            IsActive = product.IsActive
+            IsActive = product.IsActive,
+            CategoryId = product.CategoryID ?? 0,
+            CategoryName = product.Category?.Name
         };
     }
 
@@ -47,7 +53,8 @@ public class ProductModel
             Name = Name,
             Description = Description,
             Price = Price,
-            IsActive = IsActive
+            IsActive = IsActive,
+            CategoryID = CategoryId
         };
 
     }

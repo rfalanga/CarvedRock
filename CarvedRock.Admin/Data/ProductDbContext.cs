@@ -9,10 +9,10 @@ public class ProductDbContext : DbContext
 
     public string DbPath { get; set; }
 
-    public ProductDbContext()
+    public ProductDbContext(IConfiguration config)
     {
         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        DbPath = Path.Join(path, "carved-rock.db");
+        DbPath = Path.Join(path, config.GetConnectionString("ProductDbFilename"));
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");

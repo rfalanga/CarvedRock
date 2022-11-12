@@ -60,6 +60,11 @@ public class ProductLogic : IProductLogic
         };
     }
 
+    public async Task GetAvailableCategories(ProductModel productModel)
+    {
+        productModel.AvailableCategories = await GetAvailableCategoriesFromDb();
+    }
+
     private async Task<List<SelectListItem>> GetAvailableCategoriesFromDb()
     {
         var cats = await _repo.GetAllCategoriesAsync();
@@ -68,4 +73,5 @@ public class ProductLogic : IProductLogic
         returnList.AddRange(availCatList);
         return returnList;
     }
+
 }

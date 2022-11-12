@@ -29,9 +29,11 @@ public class ProductsController : Controller
         return View(product);
     }
 
-    public IActionResult Create()
+    //this sets up an empty create view for the user to fill in
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var model = await _logic.InitializeProductModel();
+        return View(model);
     }
 
     // POST: ProductsData/Create

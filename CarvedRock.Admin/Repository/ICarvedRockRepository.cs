@@ -9,4 +9,5 @@ public interface ICarvedRockRepository
     Task<Product> AddProductAsync(Product product);
     Task UpdateProductAsync(Product product);
     Task RemoveProductAsync(int productIdToRemove);
+    Task<List<Category>> GetAllCategoriesAsync();
 }

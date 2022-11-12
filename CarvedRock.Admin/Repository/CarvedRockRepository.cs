@@ -67,4 +67,10 @@ public class CarvedRockRepository : ICarvedRockRepository
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
-    }}
+    }
+
+    public async Task<List<Category>> GetAllCategoriesAsync()
+    {
+        return await _context.Categories.ToListAsync();
+    }
+}

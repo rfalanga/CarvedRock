@@ -73,4 +73,9 @@ public class CarvedRockRepository : ICarvedRockRepository
     {
         return await _context.Categories.ToListAsync();
     }
+
+    public async Task<Category?> GetCategoryByIdAsync(int categoryId)
+    {
+        return await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+    }
 }

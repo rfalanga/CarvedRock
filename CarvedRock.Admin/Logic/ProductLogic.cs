@@ -52,6 +52,7 @@ public class ProductLogic : IProductLogic
 
     public async Task UpdateProduct(ProductModel productToUpdate)
     {
+        await _validator.ValidateAndThrowAsync(productToUpdate);    //I didn't have this line
         var productToSave = productToUpdate.ToProduct();       
         await _repo.UpdateProductAsync(productToSave);
     }   

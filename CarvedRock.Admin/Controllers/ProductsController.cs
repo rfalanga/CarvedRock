@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using CarvedRock.Admin.Models;
 using CarvedRock.Admin.Logic;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.AspNetCore;
 
 namespace CarvedRock.Admin.Controllers;
 
@@ -14,8 +17,8 @@ public class ProductsController : Controller
     public ProductsController(IProductLogic logic, ILogger<ProductsController> logger)
     {
         //Products = GetSampleProducts();
-        this._logic = logic;
-        this._logger = logger;
+        _logic = logic;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Details(int id)
@@ -29,9 +32,11 @@ public class ProductsController : Controller
         return View(product);
     }
 
-    public IActionResult Create()
+    //this sets up an empty create view for the user to fill in
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var model = await _logic.InitializeProductModel();
+        return View(model);
     }
 
     // POST: ProductsData/Create
@@ -41,12 +46,24 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ProductModel product)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
+        {
+            await _logic.GetAvailableCategories(product);   // I didn't have this line - must have missed Erik writing it
+            return View(product);
+        }
+
+        try
         {
             await _logic.AddNewProduct(product);
             return RedirectToAction(nameof(Index));
         }
-        return View(product);
+        catch (ValidationException valEx)
+        {
+            var results = new ValidationResult(valEx.Errors);
+            results.AddToModelState(ModelState, null);
+            await _logic.GetAvailableCategories(product);
+            return View(product);
+        }
     }
 
     // GET: ProductsData/Edit/5
@@ -65,6 +82,8 @@ public class ProductsController : Controller
             return View("NotFound");
         }
 
+        await _logic.GetAvailableCategories(productModel);
+
         return View(productModel);
     }
 
@@ -77,17 +96,28 @@ public class ProductsController : Controller
     {
         if (id != product.Id) 
         {
-            _logger.LogInformation($"The Product Id is a mismatch");
+            _logger.LogInformation($"Id mismatch in passed information. Id value {id} did not match model value of {product.Id}");
             return View("NotFound");
         }
 
-        if (ModelState.IsValid)
+        // What I had here was completely different from what Erik had
+        if (!ModelState.IsValid)
+        {
+            await _logic.GetAvailableCategories(product);
+            return View(product);
+        }
+        try
         {
             await _logic.UpdateProduct(product);
             return RedirectToAction(nameof(Index));
         }
-
-        return View(product);
+        catch (ValidationException valEx)
+        {
+            var results = new ValidationResult(valEx.Errors);
+            results.AddToModelState(ModelState, null);
+            await _logic.GetAvailableCategories(product);
+            return View(product);
+        }
     }
 
     // GET: ProductsData/Delete/5

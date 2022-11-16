@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using CarvedRock.Admin.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CarvedRock.Admin.Models;
 
@@ -27,6 +28,13 @@ public class ProductModel
     public decimal Price { get; set; }
     public bool IsActive { get; set; }
 
+    [DisplayName("Category")]
+    public int CategoryId { get; set; }
+
+    public string? CategoryName { get; set; }
+
+    public List<SelectListItem> AvailableCategories { get; set; } = new();
+
     public static ProductModel FromProduct(Product product)
     {
         return new ProductModel
@@ -35,7 +43,9 @@ public class ProductModel
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
-            IsActive = product.IsActive
+            IsActive = product.IsActive,
+            CategoryId = product.CategoryID ?? 0,
+            CategoryName = product.Category?.Name
         };
     }
 
@@ -47,7 +57,8 @@ public class ProductModel
             Name = Name,
             Description = Description,
             Price = Price,
-            IsActive = IsActive
+            IsActive = IsActive,
+            CategoryID = CategoryId
         };
 
     }

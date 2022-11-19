@@ -11,7 +11,7 @@ public class AdminContext : IdentityDbContext<AdminUser>
 
 	public AdminContext(IConfiguration configuration)
 	{
-		var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);	//TODO: Check this line
+		var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 		_dbPath = Path.Join(path, configuration.GetConnectionString("UserDbFilename"));
 	}
 

@@ -7,16 +7,14 @@ namespace CarvedRock.Admin.Data;
 
 public class AdminContext : IdentityDbContext<AdminUser>
 {
-    public AdminContext(DbContextOptions<AdminContext> options)
-        : base(options)
-    {
-    }
+	private readonly string _dbPath;
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
-    }
+	public AdminContext(IConfiguration configuration)
+	{
+		var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);	//TODO: Check this line
+		_dbPath = Path.Join(path, configuration.GetConnectionString("UserDbFilename"));
+	}
+
+	protected override void OnConfiguring(DbContextOptionsBuilder options) 
+		=> options.UseSqlite($"Data Source={_dbPath}");
 }

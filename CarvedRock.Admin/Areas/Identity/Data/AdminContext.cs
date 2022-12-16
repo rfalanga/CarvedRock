@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarvedRock.Admin.Data;
+namespace CarvedRock.Admin.Data;	// should this namespace be CarvedRock.Admin.Areas.Identity.Data?
 
 public class AdminContext : IdentityDbContext<AdminUser>
 {

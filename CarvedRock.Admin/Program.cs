@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductValidator>();
 
 builder.Services.AddDbContext<ProductDbContext>();
+builder.Services.AddDbContext<AdminContext>(options => options.UseSqlite(connectionString));  // I mistakenly did not include this, Erik Dahl corrected this mistake
 
 builder.Services.AddDefaultIdentity<AdminUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AdminContext>();

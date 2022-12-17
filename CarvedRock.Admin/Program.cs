@@ -3,7 +3,6 @@ using CarvedRock.Admin.Logic;
 using CarvedRock.Admin.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using CarvedRock.Admin.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);

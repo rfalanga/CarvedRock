@@ -11,6 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("AdminContextCo
 //Erik changed the value for AdminContextConnection in appsettings.json, so he reasoned that we could comment out the preceeding line.
 //However, then he changed the AddDbContext<AdminContext> call, which is NOT in this scafforded code!! So, I'm leaving the 
 //definition for connectionString alone.
+//Now I'm wondering if this is another instance in which the scaffolded code is wrong?  12/17/2022
 
 
 // Add services to the container.
@@ -18,8 +19,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddValidatorsFromAssemblyContaining<ProductValidator>();
 
 builder.Services.AddDbContext<ProductDbContext>();
+
 builder.Services.AddDbContext<AdminContext>(options => options.UseSqlite(connectionString));  // I mistakenly did not include this, Erik Dahl corrected this mistake
                                                                                               // At this point connectionString == cr-auth.db
+builder.Services.AddDefaultIdentity<AdminUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+});
 
 builder.Services.AddDefaultIdentity<AdminUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AdminContext>();

@@ -4,9 +4,11 @@ using CarvedRock.Admin.Logic;
 using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarvedRock.Admin.Controllers;
 
+[Authorize]
 public class ProductsController : Controller
 {
     private readonly IProductLogic _logic;

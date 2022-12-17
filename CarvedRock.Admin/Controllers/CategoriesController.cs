@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarvedRock.Admin.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarvedRock.Admin.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ProductDbContext _context;
